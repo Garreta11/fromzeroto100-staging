@@ -9,7 +9,7 @@ import '@tensorflow/tfjs-backend-webgl';
 
 
 const PoseEstimation: React.FC = () => {
-  const [poses, setPoses] = useState<any[]>([]);
+  const [poses, setPoses] = useState<unknown[]>([]);
 
   const webcamRef = useRef<Webcam>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null);
