@@ -18,12 +18,14 @@
     "react": "^18",
     "react-dom": "^18",
     "react-webcam": "^7.2.0",
-    "sass": "^1.78.0"
+    "sass": "^1.78.0",
+    "stats.js": "^0.17.0"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/stats.js": "^0.17.3",
     "eslint": "^8",
     "eslint-config-next": "14.2.8",
     "typescript": "^5"

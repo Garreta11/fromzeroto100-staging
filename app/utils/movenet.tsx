@@ -1,4 +1,4 @@
-// import * as tf from '@tensorflow/tfjs';
+import * as tf from '@tensorflow/tfjs-core';
 import * as poseDetection from '@tensorflow-models/pose-detection';
 
 let detector: poseDetection.PoseDetector | null = null;
@@ -8,6 +8,10 @@ let detector: poseDetection.PoseDetector | null = null;
  */
 export const loadMoveNetModel = async () => {
   if (!detector) {
+    await tf.setBackend('webgl'); // Use the WebGL backend in the worker
+    await tf.ready();
+
+
     detector = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet, {
       modelType: poseDetection.movenet.modelType.SINGLEPOSE_LIGHTNING
     });
