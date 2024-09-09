@@ -1,0 +1,18 @@
+.poseestimation {
+  position: relative;
+  height: 100vh;
+  &__webcam {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 640px;
+    height: 480px;
+  }
+  &__canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 640px;
+    height: 480px;
+  }
+}
