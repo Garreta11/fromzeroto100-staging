@@ -122,7 +122,6 @@ const PoseEstimation: React.FC = () => {
         height={480}
         width={640}
         videoConstraints={videoConstraints}
-        screenshotFormat="image/jpeg"
       />
       <canvas ref={canvasRef} className={styles.poseestimation__canvas} />
 
