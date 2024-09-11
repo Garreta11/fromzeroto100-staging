@@ -1,12 +1,9 @@
 'use client'
-
-import { useRef, useState, useEffect, useCallback } from "react";
-import { loadMoveNetModel, detectPose } from "@/app/utils/movenet";
-import styles from './PoseEstimation.module.scss'
+import styles from './Camera.module.scss'
 import Webcam from "react-webcam";
 import Stats from 'stats.js';
-// Register one of the TF.js backends.
-import '@tensorflow/tfjs-backend-webgl';
+import { useRef, useState, useEffect, useCallback } from "react";
+import { loadMoveNetModel, detectPose } from "@/app/utils/movenet";
 
 // Interface declarations
 interface Keypoint {
@@ -20,17 +17,13 @@ interface Pose {
   score: number;
 }
 
-
-const PoseEstimation: React.FC = () => {
-  const [poses, setPoses] = useState<Pose[]>([]);
-
+const Camera: React.FC = () => {
   const webcamRef = useRef<Webcam>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null);
-
   const statsRef = useRef<Stats | null>(null);
 
-  const [isModelLoaded, setIsModelLoaded] = useState(false);
-
+  const [poses, setPoses] = useState<Pose[]>([]);
+  const [isModelLoaded, setIsModelLoaded] = useState<boolean>(false);
 
   const videoConstraints = {
     width: 640,
@@ -114,19 +107,18 @@ const PoseEstimation: React.FC = () => {
   }
 
   return (
-    <div className={styles.poseestimation}>
+    <div className={styles.camera}>
       <Webcam
         ref={webcamRef}
-        className={styles.poseestimation__webcam}
+        className={styles.camera__webcam}
         audio={false}
         height={480}
         width={640}
         videoConstraints={videoConstraints}
       />
-      <canvas ref={canvasRef} className={styles.poseestimation__canvas} />
-
+      <canvas ref={canvasRef} className={styles.camera__canvas} />
     </div>
   )
-};
+}
 
-export default PoseEstimation;
+export default Camera;

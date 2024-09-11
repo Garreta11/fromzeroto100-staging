@@ -1,0 +1,10 @@
+@import '../../breakpoints';
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 375px;
+  max-height: 717px;
+  background-color: white;
+  border-radius: 13px;
+}

@@ -1,5 +1,7 @@
 import * as tf from '@tensorflow/tfjs-core';
 import * as poseDetection from '@tensorflow-models/pose-detection';
+// Register one of the TF.js backends.
+import '@tensorflow/tfjs-backend-webgl';
 
 let detector: poseDetection.PoseDetector | null = null;
 
