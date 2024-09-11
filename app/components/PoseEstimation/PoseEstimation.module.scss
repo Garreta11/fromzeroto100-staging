@@ -2,23 +2,15 @@
 
 .poseestimation {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 375px;
-  max-height: 667px;
+  bottom: 20px;
+  right: 20px;
+  max-width: 108px;
+  max-height: 162px;
   width: 100%;
   height: 100%;
-  border-radius: 15px;
+  border-radius: 13px;
   overflow: hidden;
-
-  @include mobile-query {
-    top: inherit;
-    left: inherit;
-    bottom: 0;
-    right: 0;
-    transform: translate(0, 0) scale(0.5);
-  }
+  transform-origin: top left;
 
   &__webcam {
     position: absolute;
