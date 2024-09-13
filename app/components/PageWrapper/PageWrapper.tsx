@@ -1,13 +1,22 @@
 'use client'
+import styles from './PageWrapper.module.scss'
+import React, { useContext } from 'react';
+
+import { PerformanceContext } from '../../contexts/PerformanceContext';
 
 import Camera from "../Camera/Camera";
-
-import styles from './PageWrapper.module.scss'
 import Character from "../Character/Character";
+import ProgressBar from "../ProgressBar/ProgressBar";
 
 
 const PageWrapper: React.FC = () => {
 
+  const context = useContext(PerformanceContext);
+  // Check if context is undefined
+  if (!context) {
+    throw new Error('Character must be used within a PerformanceProvider');
+  }
+  const { performancePercentage } = context
   return (
     <div className={styles.container}>
       <Character
@@ -18,6 +27,7 @@ const PageWrapper: React.FC = () => {
         frameDuration={100} // Duration of each frame in milliseconds
       />
       <Camera />
+      <ProgressBar percentage={performancePercentage} />
     </div>
   )
 };

@@ -1,5 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useContext } from 'react';
 import styles from './Character.module.scss'
+import { PerformanceContext } from '../../contexts/PerformanceContext';
+
 
 interface SpriteAnimationProps {
   imageUrl: string;
@@ -11,11 +13,19 @@ interface SpriteAnimationProps {
 
 const Character: React.FC<SpriteAnimationProps> = ({imageUrl, frameWidth, frameHeight, frameCount, frameDuration}) => {
 
+  const context = useContext(PerformanceContext);
+  // Check if context is undefined
+  if (!context) {
+    throw new Error('Character must be used within a PerformanceProvider');
+  }
+  const { performancePercentage } = context;
+
+
   const [currentFrame, setCurrentFrame] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  const startAnimation = () => {
+  /* const startAnimation = () => {
     if (!isPlaying && frameCount > 1) {
       setIsPlaying(true);
     }
@@ -37,7 +47,7 @@ const Character: React.FC<SpriteAnimationProps> = ({imageUrl, frameWidth, frameH
   const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(event.target.value);
     setCurrentFrame(value);
-  };
+  }; */
 
   useEffect(() => {
     if (isPlaying) {
@@ -57,6 +67,11 @@ const Character: React.FC<SpriteAnimationProps> = ({imageUrl, frameWidth, frameH
     };
   }, [isPlaying, frameCount, frameDuration]);
 
+  useEffect(() => {
+    const cf = Math.round((performancePercentage * (frameCount - 1)) / 100);
+    setCurrentFrame(cf)
+  }, [performancePercentage])
+
   return (
     <div className={styles.character}>
       <div
@@ -69,7 +84,7 @@ const Character: React.FC<SpriteAnimationProps> = ({imageUrl, frameWidth, frameH
         }}
       />
 
-      <div className={styles.character__controllers}>
+      {/* <div className={styles.character__controllers}>
         <div className={styles.character__controllers__buttons}>
           <button onClick={startAnimation} disabled={isPlaying}>Play</button>
           <button onClick={stopAnimation} disabled={!isPlaying}>Pause</button>
@@ -80,12 +95,13 @@ const Character: React.FC<SpriteAnimationProps> = ({imageUrl, frameWidth, frameH
             type="range"
             min="0"
             max={frameCount - 1}
+            step="0.1"
             value={currentFrame}
             onChange={handleSliderChange}
             className={styles.slider}
           />
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }
