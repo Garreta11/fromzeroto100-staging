@@ -47,13 +47,11 @@ const detectSquat = (poses: poseDetection.Pose[]) => {
     const leftKnee: Keypoint | undefined = keypoints.find(kp => kp.name === 'right_knee');
     const leftAnkle: Keypoint | undefined = keypoints.find(kp => kp.name === 'right_ankle');
 
-    console.log(leftAnkle)
-
     if (leftAnkle && leftKnee && leftHip) {    
       if (
-        (leftHip?.score ?? 0) > 0.5 &&
-        (leftKnee?.score ?? 0) > 0.5 &&
-        (leftAnkle?.score ?? 0) > 0.5
+        (leftHip?.score ?? 0) > 0.3 &&
+        (leftKnee?.score ?? 0) > 0.3 &&
+        (leftAnkle?.score ?? 0) > 0.3
       ) {
         
         const angleLeftKnee = calculateAngle(leftAnkle, leftKnee, leftHip);

@@ -68,7 +68,7 @@ const Camera: React.FC = () => {
       const video = webcamRef.current.video as HTMLVideoElement;
       // const detectedPoses = await detectPose(video) as Pose[];
       const { poses: detectedPoses, counter: r, percentage: p } = await detectPose(video);
-      setPoses(detectedPoses);
+      setPoses(detectedPoses as Pose[]);
       setRepetitions(r);
       setPerformancePercentage(p)
 
