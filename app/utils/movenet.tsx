@@ -8,6 +8,12 @@ let stage: string = 'none';
 let counter: number = 0;
 let percentage: number = 0;
 
+interface Keypoint {
+  x: number;
+  y: number;
+  score?: number; // Optional score
+}
+
 /**
  * Loads the MoveNet model if it hasn't been loaded already.
  */
@@ -36,42 +42,51 @@ const calculateAngle = (A: {x: number, y: number}, B: {x: number, y: number}, C:
 const detectSquat = (poses: poseDetection.Pose[]) => {
   if (poses.length > 0) {
     const keypoints = poses[0].keypoints;
-    const leftShoulder = keypoints.find(kp => kp.name === 'right_shoulder');
-    const leftHip = keypoints.find(kp => kp.name === 'right_hip');
-    const leftKnee = keypoints.find(kp => kp.name === 'right_knee');
-    const leftAnkle = keypoints.find(kp => kp.name === 'right_ankle');
+    // const leftShoulder = keypoints.find(kp => kp.name === 'right_shoulder');
+    const leftHip: Keypoint | undefined  = keypoints.find(kp => kp.name === 'right_hip');
+    const leftKnee: Keypoint | undefined = keypoints.find(kp => kp.name === 'right_knee');
+    const leftAnkle: Keypoint | undefined = keypoints.find(kp => kp.name === 'right_ankle');
 
-    if (leftHip.score > 0.5 && leftKnee.score > 0.5 && leftAnkle.score > 0.5) {
-      const angleLeftKnee = calculateAngle(leftAnkle, leftKnee, leftHip);
-      const leftKneeAngle = 180 - angleLeftKnee;
-      
-      const angleLeftHip = calculateAngle(leftAnkle, leftKnee, leftHip);
-      const leftHipAngle = 180 - angleLeftKnee
+    console.log(leftAnkle)
 
-      // console.log(angleLeftKnee)
+    if (leftAnkle && leftKnee && leftHip) {    
+      if (
+        (leftHip?.score ?? 0) > 0.5 &&
+        (leftKnee?.score ?? 0) > 0.5 &&
+        (leftAnkle?.score ?? 0) > 0.5
+      ) {
+        
+        const angleLeftKnee = calculateAngle(leftAnkle, leftKnee, leftHip);
+        /* const leftKneeAngle = 180 - angleLeftKnee;
+        
+        const angleLeftHip = calculateAngle(leftAnkle, leftKnee, leftHip);
+        const leftHipAngle = 180 - angleLeftKnee */
 
-      // Define angle thresholds
-      const standingAngle = 180; // Angle representing standing position
-      const squatAngle = 100; // Angle representing the squat position
+        // console.log(angleLeftKnee)
 
-      if (stage === 'down') {
-        // Map angle to percentage for down phase
-        percentage = Math.min(Math.max(((angleLeftKnee - squatAngle) / (standingAngle - squatAngle)) * 50 + 50, 50), 100);
-      } else if (stage === 'up') {
-        // Map angle to percentage for up phase
-        percentage = Math.min(Math.max(((standingAngle - angleLeftKnee) / (standingAngle - squatAngle)) * 50, 0), 50);
-      }
+        // Define angle thresholds
+        const standingAngle = 180; // Angle representing standing position
+        const squatAngle = 100; // Angle representing the squat position
 
-      // Smooth percentage transition
-      // setPercentage(prevPercentage => (prevPercentage + percentage) / 2);
+        if (stage === 'down') {
+          // Map angle to percentage for down phase
+          percentage = Math.min(Math.max(((angleLeftKnee - squatAngle) / (standingAngle - squatAngle)) * 50 + 50, 50), 100);
+        } else if (stage === 'up') {
+          // Map angle to percentage for up phase
+          percentage = Math.min(Math.max(((standingAngle - angleLeftKnee) / (standingAngle - squatAngle)) * 50, 0), 50);
+        }
 
-      if (angleLeftKnee > 169) {
-        stage = 'up'
-      }
+        // Smooth percentage transition
+        // setPercentage(prevPercentage => (prevPercentage + percentage) / 2);
 
-      if (angleLeftKnee <= 90 && stage == 'up') {
-        stage="down"
-        counter += 1
+        if (angleLeftKnee > 169) {
+          stage = 'up'
+        }
+
+        if (angleLeftKnee <= 90 && stage == 'up') {
+          stage="down"
+          counter += 1
+        }
       }
     }
   }
