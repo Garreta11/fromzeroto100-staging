@@ -5,6 +5,18 @@
   height: 100%;
   max-width: 375px;
   max-height: 717px;
-  background-color: white;
+  background-color: var(--white);
   border-radius: 13px;
+  @include mobile-query {
+    border-radius: 0px;
+  }
+}
+
+/* exercise page */
+.exercise {
+  padding: 10px;
+  &__title {
+    text-align: center;
+    text-transform: capitalize;
+  }
 }

@@ -1,14 +1,14 @@
 import PageWrapper from "./components/PageWrapper/PageWrapper";
 import styles from "./page.module.scss";
 
-import { PerformanceProvider } from './contexts/PerformanceContext';
+import { DataProvider } from './contexts/DataContext';
 
 export default function Home() {
   return (
     <div className={styles.page}>
-      <PerformanceProvider>
+      <DataProvider>
         <PageWrapper />
-      </PerformanceProvider>
+      </DataProvider>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 'use client'
 import React, {useState, useEffect, useContext} from 'react';
 import styles from './ProgressBar.module.scss'
-import { PerformanceContext } from '../../contexts/PerformanceContext';
+import { DataContext } from '../../contexts/DataContext';
 
 interface ProgressBarProps {
   percentage: number
@@ -15,10 +15,10 @@ const ProgressBar: React.FC<ProgressBarProps> = ({percentage}) => {
   const [showTrack, setShowTrack] = useState<boolean>(false)
   const [circumference] = useState<number>(2 * Math.PI * radius * (285/360))
 
-  const context = useContext(PerformanceContext);
+  const context = useContext(DataContext);
   // Check if context is undefined
   if (!context) {
-    throw new Error('Character must be used within a PerformanceProvider');
+    throw new Error('Character must be used within a DataProvider');
   }
   const { repetitions } = context
 
@@ -54,7 +54,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({percentage}) => {
           />
         )}
         
-        <text x="54" y="80" fill="#071E3A" font-size="50" textAnchor='middle'>{repetitions}</text>
+        <text x="54" y="70" fill="#071E3A" font-size="50" textAnchor='middle'>{repetitions}</text>
         
         <defs>
           <linearGradient id="progress_bar_fill" x1="55.942" y1="5.76432" x2="17.2696" y2="119.106" gradientUnits="userSpaceOnUse">
