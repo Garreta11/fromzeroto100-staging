@@ -10,6 +10,7 @@ import { useSearchParams } from 'next/navigation';
 import Camera from "../Camera/Camera";
 import Character from "../Character/Character";
 import ProgressBar from "../ProgressBar/ProgressBar";
+import SuspenseWrapper from '../SuspenseWrapper/SuspenseWrapper';
 
 // pages
 import Welcome from '@/app/pages/Welcome/Welcome';
@@ -66,50 +67,52 @@ const PageWrapper: React.FC = () => {
 
 
   return (
-    <div className={styles.container}>
+    <SuspenseWrapper>
+      <div className={styles.container}>
 
-      {page === 'welcome' && (
-        <Welcome />
-      )}
+        {page === 'welcome' && (
+          <Welcome />
+        )}
 
-      {page === 'instructions' && (
-        <Instructions />
-      )}
+        {page === 'instructions' && (
+          <Instructions />
+        )}
 
-      {page === 'positionTheCamera' && (
-        <PositionTheCamera />
-      )}
+        {page === 'positionTheCamera' && (
+          <PositionTheCamera />
+        )}
 
-      {page === 'captureBody' && (
-        <CaptureBody />
-      )}
+        {page === 'captureBody' && (
+          <CaptureBody />
+        )}
 
-      {page === 'getReady' && (
-        <GetReady />
-      )}
+        {page === 'getReady' && (
+          <GetReady />
+        )}
 
-      
+        
 
-      {page === 'exercise' && (
-        <div className={styles.exercise}>
-          <h2 className={styles.exercise__title}>{selectedExercise.name}</h2>
-          <Character
-            imageUrl={selectedExercise.spriteUrl}
-            frameWidth={selectedExercise.frameWidth} // Width of each frame
-            frameHeight={selectedExercise.frameHeight} // Height of each frame
-            frameCount={selectedExercise.frameCount} // Total number of frames in the sprite sheet
-            frameDuration={selectedExercise.frameDuration} // Duration of each frame in milliseconds
-          />
-          <ProgressBar percentage={performancePercentage} />
-        </div>
-      )}
+        {page === 'exercise' && (
+          <div className={styles.exercise}>
+            <h2 className={styles.exercise__title}>{selectedExercise.name}</h2>
+            <Character
+              imageUrl={selectedExercise.spriteUrl}
+              frameWidth={selectedExercise.frameWidth} // Width of each frame
+              frameHeight={selectedExercise.frameHeight} // Height of each frame
+              frameCount={selectedExercise.frameCount} // Total number of frames in the sprite sheet
+              frameDuration={selectedExercise.frameDuration} // Duration of each frame in milliseconds
+            />
+            <ProgressBar percentage={performancePercentage} />
+          </div>
+        )}
 
 
-      {/* CAMERA FEEDBACK */}
-      {(page === 'captureBody' || page === 'getReady' || page === 'exercise') && (
-        <Camera />
-      )}
-    </div>
+        {/* CAMERA FEEDBACK */}
+        {(page === 'captureBody' || page === 'getReady' || page === 'exercise') && (
+          <Camera />
+        )}
+      </div>
+    </SuspenseWrapper>
   )
 };
 
