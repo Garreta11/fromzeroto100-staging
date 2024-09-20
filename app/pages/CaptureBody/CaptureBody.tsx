@@ -1,7 +1,6 @@
 import React, {useEffect, useState, useContext} from 'react'
 import styles from './CaptureBody.module.scss'
 import { DataContext } from '@/app/contexts/DataContext';
-import { error } from 'console';
 
 const CaptureBody = () => {
   const [countSuccess, setCountSuccess] = useState<number>(5);
