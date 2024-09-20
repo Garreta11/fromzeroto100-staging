@@ -1,6 +1,6 @@
 .camera {
   position: absolute;
-  top: 10px;
+  bottom: 10px;
   right: 10px;
   width: 108px;
   height: 162px;
@@ -13,9 +13,10 @@
   &__fullscreen {
     width: 100%;
     height: 100%;
-    top: 0;
+    bottom: 0;
     right: 0;
     z-index: 0;
+    border-radius: 0px;
   }
 
   &__webcam {
@@ -25,6 +26,7 @@
     height: 100%;
     opacity: 0;
   }
+
   &__canvas {
     position: absolute;
     width: auto;

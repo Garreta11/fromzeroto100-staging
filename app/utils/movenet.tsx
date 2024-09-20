@@ -18,16 +18,19 @@ interface Keypoint {
  * Loads the MoveNet model if it hasn't been loaded already.
  */
 export const loadMoveNetModel = async () => {
-  if (!detector) {
-    await tf.setBackend('webgl'); // Use the WebGL backend in the worker
-    await tf.ready();
+  try {
+    if (!detector) {
+      await tf.setBackend('webgl'); // Use the WebGL backend in the worker
+      await tf.ready();
 
-
-    detector = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet, {
-      modelType: poseDetection.movenet.modelType.SINGLEPOSE_LIGHTNING
-    });
+      detector = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet, {
+        modelType: poseDetection.movenet.modelType.SINGLEPOSE_LIGHTNING,
+      });
+    }
+    return detector;
+  } catch (error) {
+    console.error('Error loading the model:', error);
   }
-  return detector;
 };
 
 const calculateAngle = (A: {x: number, y: number}, B: {x: number, y: number}, C: {x: number, y: number}) => {

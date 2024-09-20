@@ -24,8 +24,8 @@ const GetReady = () => {
   }, [count])
   return (
     <div className={styles.getReady}>
-      <h2>Get Ready!</h2>
-      <h3>Game Starts<br/>in <span>{count}S</span></h3>
+      <h3 className={styles.getReady__text}>Get Started in</h3>
+      <h2 className={styles.getReady__number}>{count}</h2>
     </div>
     
   )

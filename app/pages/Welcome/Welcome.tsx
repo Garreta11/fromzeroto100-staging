@@ -14,7 +14,6 @@ const Welcome = () => {
 
 
   const handlePlay = () => {
-    console.log("play")
     setPage('instructions')
   }
 

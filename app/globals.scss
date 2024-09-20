@@ -1,6 +1,7 @@
 @import './breakpoints';
 
 :root {
+  --black: #000000;
   --blue: #071E3A;
   --gray: #838383;
   --white: #FEFEFE;
@@ -10,14 +11,22 @@
   --size-title: 34px;
   --size-subtitle: 30px;
   --size-text: 14px;
+  --size-xxl: 120px;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
+    --black: #000000;
     --blue: #071E3A;
     --gray: #838383;
     --white: #ededed;
     --red: #DB0A40;
+
+    // font sizes
+    --size-title: 34px;
+    --size-subtitle: 30px;
+    --size-text: 14px;
+    --size-xxl: 120px;
   }
 }
 

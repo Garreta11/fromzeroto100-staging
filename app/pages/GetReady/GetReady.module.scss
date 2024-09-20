@@ -1,9 +1,15 @@
 .getReady {
+  position: relative;
   text-align: center;
   height: 100%;
   padding: 85px 10px;
-  padding-top: 50%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+
+  &__number {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: var(--size-xxl);
+    color: var(--red);
+  }
 }

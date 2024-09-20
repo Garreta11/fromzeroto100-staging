@@ -46,13 +46,14 @@ const Camera: React.FC = () => {
 
   const [poses, setPoses] = useState<Pose[]>([]);
   const [isModelLoaded, setIsModelLoaded] = useState<boolean>(false);
+  const [keypointsInside, setKeypointsInside] = useState<boolean[]>(Array(17).fill(false));
 
   const context = useContext(DataContext);
   // Check if context is undefined
   if (!context) {
     throw new Error('Character must be used within a DataProvider');
   }
-  const { page, setPerformancePercentage, setRepetitions } = context
+  const { page, setPerformancePercentage, setRepetitions, allKeypointsInside, setAllKeypointsInside } = context
 
   const videoConstraints = {
     width: 640,
@@ -76,8 +77,8 @@ const Camera: React.FC = () => {
     }
   }, [isModelLoaded]);
 
+  // Initialize stats.js
   useEffect(() => {
-    // Initialize stats.js
     const stats = new Stats();
     stats.showPanel(0); // 0 = FPS panel
     statsRef.current = stats;
@@ -108,8 +109,16 @@ const Camera: React.FC = () => {
 
   useEffect(() => {
     drawCanvas(poses, webcamRef.current!, canvasRef.current);
-  }, [poses])
+    if (page === 'captureBody') {
+      drawRoundedRect(canvasRef.current, 210, 50, 220, 370, 30);
+    }
+  }, [poses, page])
 
+  useEffect(() => {
+    setAllKeypointsInside(keypointsInside.every(isInside => isInside));
+  }, [keypointsInside])
+
+  // draw dots and lines body tracking
   const drawCanvas = (poses: Pose[], webcam: Webcam, canvas: HTMLCanvasElement | null) => {
     if (!canvas) return
 
@@ -125,6 +134,16 @@ const Camera: React.FC = () => {
 
     if (poses.length > 0) {
       const keypoints = poses[0].keypoints;
+
+      // Define the rounded rectangle position and size
+      const rectX = 195, rectY = 0, rectWidth = 250, rectHeight = 480;
+      const newKeypointsInside = keypoints.map((kp: Keypoint) => {
+        const isInside = isPointInRoundedRect(kp.x, kp.y, rectX, rectY, rectWidth, rectHeight);
+        return isInside;  // Return whether the keypoint is inside the rect or not
+      });
+
+      // Update the state array
+      setKeypointsInside(newKeypointsInside);
 
       // Draw lines between the skeleton keypoints
       skeleton.forEach(([partA, partB]) => {
@@ -143,16 +162,49 @@ const Camera: React.FC = () => {
 
       // Draw circles on each keypoint
       keypoints.forEach((kp: Keypoint) => {
+        const { x, y } = kp;
         if (kp.score > 0.5) {
-          const { x, y } = kp;
+          // Draw the keypoints
           ctx.beginPath();
           ctx.arc(x, y, 5, 0, 2 * Math.PI);
           ctx.fillStyle = "red";
           ctx.fill();
         }
       });
+
     }
 
+  }
+  // Function to draw a rounded rectangle
+  const drawRoundedRect = (canvas: HTMLCanvasElement | null, x: number, y: number, width:number, height:number, radius:number) => {
+    if (!canvas) return
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // Set the style for the dotted border
+    ctx.strokeStyle = allKeypointsInside? 'green' : 'gray';
+    ctx.setLineDash([10, 2]);  // Dotted line: 5px dash, 5px gap
+    ctx.lineWidth = 1;
+
+    ctx.beginPath();
+    ctx.moveTo(x + radius, y);
+    ctx.lineTo(x + width - radius, y);
+    ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+    ctx.lineTo(x + width, y + height - radius);
+    ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+    ctx.lineTo(x + radius, y + height);
+    ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+    ctx.lineTo(x, y + radius);
+    ctx.quadraticCurveTo(x, y, x + radius, y);
+    ctx.closePath();
+
+    ctx.stroke();
+  }
+
+  // Helper function to check if a keypoint is inside the rounded rectangle
+  const isPointInRoundedRect = (x: number, y: number, rectX: number, rectY: number, rectWidth: number, rectHeight: number) => {
+    // Check if the point is within the rectangle boundaries
+    return x >= rectX && x <= rectX + rectWidth && y >= rectY && y <= rectY + rectHeight;
   }
 
   return (

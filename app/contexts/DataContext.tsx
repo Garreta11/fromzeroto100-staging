@@ -21,6 +21,8 @@ interface DataContextType  {
   setPerformancePercentage: (percentage: number) => void;
   repetitions: number;
   setRepetitions: (rep: number) => void;
+  allKeypointsInside: boolean,
+  setAllKeypointsInside: (allKeypointsInside: boolean) => void
 }
 
 // Create a Context with an initial undefined value
@@ -32,9 +34,22 @@ const DataProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [selectedExercise, setSelectedExercise] = useState<ExerciseType>({name: '', spriteUrl:'', frameWidth:0, frameHeight:0,frameCount:0,frameDuration:0});
   const [performancePercentage, setPerformancePercentage] = useState<number>(0);
   const [repetitions, setRepetitions] = useState<number>(0);
+  const [allKeypointsInside, setAllKeypointsInside] = useState<boolean>(false)
 
   return (
-    <DataContext.Provider value={{ page, setPage, selectedExercise, setSelectedExercise, performancePercentage, setPerformancePercentage, repetitions, setRepetitions }}>
+    <DataContext.Provider value={
+      {
+        page,
+        setPage,
+        selectedExercise,
+        setSelectedExercise,
+        performancePercentage,
+        setPerformancePercentage,
+        repetitions,
+        setRepetitions,
+        allKeypointsInside,
+        setAllKeypointsInside
+      }}>
       {children}
     </DataContext.Provider>
   );
