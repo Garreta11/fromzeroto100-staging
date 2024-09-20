@@ -19,13 +19,14 @@ const CaptureBody = () => {
       }, 1000);
       return () => clearTimeout(timer); // Clean up the timer
     } else {
-      setPage('getReady')
+      // setPage('getReady')
     }
   }, [count])
 
   return (
     <div className={styles.captureBody}>
-      <h2 className={styles.captureBody__title}>Capture your body</h2>
+      <h2 className={styles.captureBody__title}>Capturing...</h2>
+      <button onClick={() => setPage('welcome')}>Exit Game</button>
     </div>
   )
 }

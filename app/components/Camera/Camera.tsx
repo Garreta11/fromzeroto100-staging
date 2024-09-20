@@ -161,8 +161,8 @@ const Camera: React.FC = () => {
         ref={webcamRef}
         className={styles.camera__webcam}
         audio={false}
-        height={480}
-        width={640}
+        height={videoConstraints.height}
+        width={videoConstraints.width}
         videoConstraints={videoConstraints}
       />
       <canvas ref={canvasRef} className={styles.camera__canvas} />

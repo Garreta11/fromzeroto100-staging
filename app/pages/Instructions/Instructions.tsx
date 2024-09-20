@@ -18,8 +18,19 @@ const Instructions = () => {
 
   return (
     <div className={styles.instructions}>
-      <h2>Instructions</h2>
-      <button onClick={handlePlay}>Play game</button>
+      <div>
+        <h2 className={styles.instructions__title}>How to win</h2>
+        <div className={styles.instructions__text}>
+          <p className={styles.instructions__text__headline}>When you log in every day:</p>
+          <ul className={styles.instructions__text__list}>
+            <li><p>Scan your body using our motion capture feature</p></li>
+            <li><p>Work out with us and complete the daily set!</p></li>
+            <li><p>Earn more points with an extra round ... or not!</p></li>
+            <li><p>Share your skills with us and unique prizes!</p></li>
+          </ul>
+        </div>
+        <button onClick={handlePlay}>Play game</button>
+      </div>
     </div>
   );
 };

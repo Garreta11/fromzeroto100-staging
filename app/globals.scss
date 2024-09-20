@@ -3,8 +3,13 @@
 :root {
   --blue: #071E3A;
   --gray: #838383;
-  --white: #ededed;
+  --white: #FEFEFE;
   --red: #DB0A40;
+
+  // font sizes
+  --size-title: 34px;
+  --size-subtitle: 30px;
+  --size-text: 14px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -39,15 +44,20 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+  font-size: var(--size-text);
+}
+
+p {
+  font-size: var(--size-text);
 }
 
 h2 {
-  font-size: 35px;
+  font-size: var(--size-title);
   text-transform: uppercase;
 }
 
 h3 {
-  font-size: 30px;
+  font-size: var(--size-subtitle);
   text-transform: uppercase;
 }
 
@@ -61,7 +71,6 @@ button {
   color: var(--white);
   border-radius: 50px;
   padding: 12px 18px;
-  text-transform: uppercase;
   &:disabled {
     background-color: var(--gray);
   }
