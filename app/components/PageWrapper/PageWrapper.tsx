@@ -7,7 +7,7 @@ import { DataContext } from '@/app/contexts/DataContext';
 import { useSearchParams } from 'next/navigation';
 
 
-import Camera from "../Camera/Camera";
+import CameraWrapper from "../CameraWrapper/CameraWrapper";
 import Character from "../Character/Character";
 import ProgressBar from "../ProgressBar/ProgressBar";
 
@@ -107,7 +107,7 @@ const PageWrapper: React.FC = () => {
 
       {/* CAMERA FEEDBACK */}
       {(page === 'captureBody' || page === 'getReady' || page === 'exercise') && (
-        <Camera />
+        <CameraWrapper />
       )}
     </div>
   )

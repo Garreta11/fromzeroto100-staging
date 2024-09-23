@@ -1,7 +1,8 @@
 
 'use client'
-import styles from './Camera.module.scss'
+import styles from './CameraWrapper.module.scss'
 import Webcam from "react-webcam";
+import { Camera, CameraType } from "react-camera-pro";
 import Stats from 'stats.js';
 import { DataContext } from '../../contexts/DataContext';
 import { useRef, useState, useEffect, useCallback, useContext } from "react";
@@ -39,8 +40,8 @@ const skeleton = [
   ["right_knee", "right_ankle"]
 ];
 
-const Camera: React.FC = () => {
-  const webcamRef = useRef<Webcam>(null)
+const CameraWrapper: React.FC = () => {
+  const webcamRef = useRef<Camera | null>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const statsRef = useRef<Stats | null>(null);
 
@@ -209,17 +210,22 @@ const Camera: React.FC = () => {
 
   return (
     <div className={`${styles.camera} ${page === 'captureBody' ? styles.camera__fullscreen : ''}`}>
-      <Webcam
+      {/* <Webcam
         ref={webcamRef}
         className={styles.camera__webcam}
         audio={false}
         height={videoConstraints.height}
         width={videoConstraints.width}
         videoConstraints={videoConstraints}
+      /> */}
+      <Camera
+        ref={webcamRef}
+        className={styles.camera__webcam}
+        audio={false}
       />
       <canvas ref={canvasRef} className={styles.camera__canvas} />
     </div>
   )
 }
 
-export default Camera;
+export default CameraWrapper;
