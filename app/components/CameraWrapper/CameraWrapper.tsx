@@ -2,11 +2,12 @@
 'use client'
 import styles from './CameraWrapper.module.scss'
 import Webcam from "react-webcam";
+import { Camera, CameraType } from 'react-camera-pro';
 import Stats from 'stats.js';
 import { DataContext } from '../../contexts/DataContext';
 import { useRef, useState, useEffect, useCallback, useContext } from "react";
 import { loadMoveNetModel, detectPose } from "@/app/utils/movenet";
-import useDeviceType from '@/app/hooks/useDeviceType';
+// import useDeviceType from '@/app/hooks/useDeviceType';
 
 // Interface declarations
 interface Keypoint {
@@ -20,11 +21,11 @@ interface Pose {
   score: number;
 }
 
-interface VideoContraintsType {
+/* interface VideoContraintsType {
   width: number,
   height: number,
   facingMode: string
-}
+} */
 
 // Define the skeleton pairs
 const skeleton = [
@@ -47,15 +48,16 @@ const skeleton = [
 ];
 
 const CameraWrapper: React.FC = () => {
-  const isMobile = useDeviceType();
-  const webcamRef = useRef<Webcam>(null)
+  // const isMobile = useDeviceType();
+  // const webcamRef = useRef<Webcam>(null)
+  const webcamRef = useRef<CameraType>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const statsRef = useRef<Stats | null>(null);
 
   const [poses, setPoses] = useState<Pose[]>([]);
   const [isModelLoaded, setIsModelLoaded] = useState<boolean>(false);
   const [keypointsInside, setKeypointsInside] = useState<boolean[]>(Array(17).fill(false));
-  const [videoConstraints, setVideoConstraints] = useState<VideoContraintsType>({width: 640, height: 480, facingMode: 'user'})
+  // const [videoConstraints, setVideoConstraints] = useState<VideoContraintsType>({width: 640, height: 480, facingMode: 'user'})
 
   const context = useContext(DataContext);
   // Check if context is undefined
@@ -100,7 +102,7 @@ const CameraWrapper: React.FC = () => {
     };
   }, []);
 
-  // check mobile
+/*   // check mobile
   useEffect(() => {
     if (isMobile) {
       setVideoConstraints({
@@ -115,7 +117,7 @@ const CameraWrapper: React.FC = () => {
         facingMode: "user"
       })
     }
-  }, [isMobile])
+  }, [isMobile]) */
 
   useEffect(() => {
     const loadModel = async () => {
@@ -235,13 +237,23 @@ const CameraWrapper: React.FC = () => {
 
   return (
     <div className={`${styles.camera} ${page === 'captureBody' ? styles.camera__fullscreen : ''}`}>
-      <Webcam
+      {/* <Webcam
         ref={webcamRef}
         className={styles.camera__webcam}
         audio={false}
         height={videoConstraints.height}
         width={videoConstraints.width}
         videoConstraints={videoConstraints}
+      /> */}
+      <Camera
+        ref={webcamRef}
+        errorMessages={{
+          noCameraAccessible: 'No camera device accessible. Please connect your camera or try a different browser.',
+          permissionDenied: 'Permission denied. Please refresh and give camera permission.',
+          switchCamera:
+            'It is not possible to switch camera to different one because there is only one video device accessible.',
+          canvas: 'Canvas is not supported.',
+        }}
       />
 
       <canvas ref={canvasRef} className={styles.camera__canvas} />
