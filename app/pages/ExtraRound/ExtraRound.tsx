@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { DataContext } from '@/app/contexts/DataContext';
 import styles from './ExtraRound.module.scss'
 import Character from "@/app/components/Character/Character"
