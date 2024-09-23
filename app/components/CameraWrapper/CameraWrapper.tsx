@@ -6,7 +6,7 @@ import Stats from 'stats.js';
 import { DataContext } from '../../contexts/DataContext';
 import { useRef, useState, useEffect, useCallback, useContext } from "react";
 import { loadMoveNetModel, detectPose } from "@/app/utils/movenet";
-import useDeviceType from '@/app/hooks/useDeviceType';
+// import useDeviceType from '@/app/hooks/useDeviceType';
 
 // Interface declarations
 interface Keypoint {
@@ -20,11 +20,11 @@ interface Pose {
   score: number;
 }
 
-interface VideoContraintsType {
+/* interface VideoContraintsType {
   width: number,
   height: number,
   facingMode: string
-}
+} */
 
 // Define the skeleton pairs
 const skeleton = [
@@ -62,7 +62,7 @@ const CameraWrapper: React.FC = () => {
   if (!context) {
     throw new Error('Character must be used within a DataProvider');
   }
-  const { page, setPerformancePercentage, setRepetitions, allKeypointsInside, setAllKeypointsInside } = context
+  const { page, setRepetitions, allKeypointsInside, setAllKeypointsInside } = context
 
   const videoConstraints = {
     width: 640,
