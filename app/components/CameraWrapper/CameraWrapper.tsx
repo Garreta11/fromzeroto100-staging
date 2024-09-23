@@ -2,11 +2,11 @@
 'use client'
 import styles from './CameraWrapper.module.scss'
 import Webcam from "react-webcam";
-import { Camera, CameraType } from "react-camera-pro";
 import Stats from 'stats.js';
 import { DataContext } from '../../contexts/DataContext';
 import { useRef, useState, useEffect, useCallback, useContext } from "react";
 import { loadMoveNetModel, detectPose } from "@/app/utils/movenet";
+import useDeviceType from '@/app/hooks/useDeviceType';
 
 // Interface declarations
 interface Keypoint {
@@ -18,6 +18,12 @@ interface Keypoint {
 interface Pose {
   keypoints: Keypoint[];
   score: number;
+}
+
+interface VideoContraintsType {
+  width: number,
+  height: number,
+  facingMode: string
 }
 
 // Define the skeleton pairs
@@ -41,13 +47,15 @@ const skeleton = [
 ];
 
 const CameraWrapper: React.FC = () => {
-  const webcamRef = useRef<Camera | null>(null)
+  const isMobile = useDeviceType();
+  const webcamRef = useRef<Webcam>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const statsRef = useRef<Stats | null>(null);
 
   const [poses, setPoses] = useState<Pose[]>([]);
   const [isModelLoaded, setIsModelLoaded] = useState<boolean>(false);
   const [keypointsInside, setKeypointsInside] = useState<boolean[]>(Array(17).fill(false));
+  const [videoConstraints, setVideoConstraints] = useState<VideoContraintsType>({width: 640, height: 480, facingMode: 'user'})
 
   const context = useContext(DataContext);
   // Check if context is undefined
@@ -56,11 +64,11 @@ const CameraWrapper: React.FC = () => {
   }
   const { page, setPerformancePercentage, setRepetitions, allKeypointsInside, setAllKeypointsInside } = context
 
-  const videoConstraints = {
+  /* const videoConstraints = {
     width: 640,
     height: 480,
     facingMode: "user", // you can also set it to "environment" for back camera on mobile devices
-  };
+  }; */
 
   const detectWebcamPose = useCallback(async () => {
     if (webcamRef.current && webcamRef.current.video?.readyState === 4 && isModelLoaded) {
@@ -91,6 +99,23 @@ const CameraWrapper: React.FC = () => {
       }
     };
   }, []);
+
+  // check mobile
+  useEffect(() => {
+    if (isMobile) {
+      setVideoConstraints({
+        width: window.innerWidth,
+        height: window.innerHeight,
+        facingMode: 'user'
+      })
+    } else {
+      setVideoConstraints({
+        width: 640,
+        height: 480,
+        facingMode: "user"
+      })
+    }
+  }, [isMobile])
 
   useEffect(() => {
     const loadModel = async () => {
@@ -210,19 +235,15 @@ const CameraWrapper: React.FC = () => {
 
   return (
     <div className={`${styles.camera} ${page === 'captureBody' ? styles.camera__fullscreen : ''}`}>
-      {/* <Webcam
+      <Webcam
         ref={webcamRef}
         className={styles.camera__webcam}
         audio={false}
         height={videoConstraints.height}
         width={videoConstraints.width}
         videoConstraints={videoConstraints}
-      /> */}
-      <Camera
-        ref={webcamRef}
-        className={styles.camera__webcam}
-        audio={false}
       />
+
       <canvas ref={canvasRef} className={styles.camera__canvas} />
     </div>
   )
