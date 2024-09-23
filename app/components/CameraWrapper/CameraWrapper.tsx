@@ -47,7 +47,7 @@ const skeleton = [
 ];
 
 const CameraWrapper: React.FC = () => {
-  const isMobile = useDeviceType();
+  // const isMobile = useDeviceType();
   const webcamRef = useRef<Webcam>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const statsRef = useRef<Stats | null>(null);
@@ -55,7 +55,7 @@ const CameraWrapper: React.FC = () => {
   const [poses, setPoses] = useState<Pose[]>([]);
   const [isModelLoaded, setIsModelLoaded] = useState<boolean>(false);
   const [keypointsInside, setKeypointsInside] = useState<boolean[]>(Array(17).fill(false));
-  const [videoConstraints, setVideoConstraints] = useState<VideoContraintsType>({width: 640, height: 480, facingMode: 'user'})
+  //const [videoConstraints, setVideoConstraints] = useState<VideoContraintsType>({width: 640, height: 480, facingMode: 'user'})
 
   const context = useContext(DataContext);
   // Check if context is undefined
@@ -64,11 +64,11 @@ const CameraWrapper: React.FC = () => {
   }
   const { page, setPerformancePercentage, setRepetitions, allKeypointsInside, setAllKeypointsInside } = context
 
-  /* const videoConstraints = {
+  const videoConstraints = {
     width: 640,
     height: 480,
     facingMode: "user", // you can also set it to "environment" for back camera on mobile devices
-  }; */
+  };
 
   const detectWebcamPose = useCallback(async () => {
     if (webcamRef.current && webcamRef.current.video?.readyState === 4 && isModelLoaded) {
@@ -80,7 +80,7 @@ const CameraWrapper: React.FC = () => {
       const { poses: detectedPoses, counter: r, percentage: p } = await detectPose(video);
       setPoses(detectedPoses as Pose[]);
       setRepetitions(r);
-      setPerformancePercentage(p)
+      // setPerformancePercentage(p)
 
       if (statsRef.current) statsRef.current.end()
     }
@@ -92,9 +92,9 @@ const CameraWrapper: React.FC = () => {
     stats.showPanel(0); // 0 = FPS panel
     statsRef.current = stats;
     document.body.appendChild(stats.dom); // Append stats.js panel to the document body
-
+  
     return () => {
-      if (statsRef.current) {
+      if (statsRef.current && document.body.contains(statsRef.current.dom)) {
         document.body.removeChild(statsRef.current.dom); // Clean up the panel on component unmount
       }
     };

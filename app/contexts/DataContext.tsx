@@ -8,7 +8,9 @@ interface ExerciseType {
   frameWidth: number,
   frameHeight: number,
   frameCount: number,
-  frameDuration: number
+  frameDuration: number,
+  maxRepetitions: number,
+  extraRoundStart: number
 }
 
 // Define the shape of the context value
@@ -31,7 +33,7 @@ const DataContext = createContext<DataContextType | undefined>(undefined);
 // Create a Provider Component
 const DataProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [page, setPage] = useState<string>('welcome');
-  const [selectedExercise, setSelectedExercise] = useState<ExerciseType>({name: '', spriteUrl:'', frameWidth:0, frameHeight:0,frameCount:0,frameDuration:0});
+  const [selectedExercise, setSelectedExercise] = useState<ExerciseType>({name: '', spriteUrl:'', frameWidth:0, frameHeight:0,frameCount:0,frameDuration:0, maxRepetitions: 0, extraRoundStart:0});
   const [performancePercentage, setPerformancePercentage] = useState<number>(0);
   const [repetitions, setRepetitions] = useState<number>(0);
   const [allKeypointsInside, setAllKeypointsInside] = useState<boolean>(false)

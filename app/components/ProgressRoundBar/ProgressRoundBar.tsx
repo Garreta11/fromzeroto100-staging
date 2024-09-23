@@ -1,6 +1,6 @@
 'use client'
 import React, {useState, useEffect, useContext} from 'react';
-import styles from './ProgressBar.module.scss'
+import styles from './ProgressRoundBar.module.scss'
 import { DataContext } from '../../contexts/DataContext';
 
 interface ProgressBarProps {
@@ -9,7 +9,7 @@ interface ProgressBarProps {
 
 const radius = 47;
 
-const ProgressBar: React.FC<ProgressBarProps> = ({percentage}) => {
+const ProgressRoundBar: React.FC<ProgressBarProps> = ({percentage}) => {
 
   const [dashOffset, setDashOffset] = useState<number>()
   const [showTrack, setShowTrack] = useState<boolean>(false)
@@ -67,4 +67,4 @@ const ProgressBar: React.FC<ProgressBarProps> = ({percentage}) => {
   )
 }
 
-export default ProgressBar
+export default ProgressRoundBar

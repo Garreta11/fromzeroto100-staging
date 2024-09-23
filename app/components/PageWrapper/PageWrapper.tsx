@@ -6,10 +6,7 @@ import { DataContext } from '@/app/contexts/DataContext';
 
 import { useSearchParams } from 'next/navigation';
 
-
-import CameraWrapper from "../CameraWrapper/CameraWrapper";
-import Character from "../Character/Character";
-import ProgressBar from "../ProgressBar/ProgressBar";
+import CameraWrapper from '../CameraWrapper/CameraWrapper';
 
 // pages
 import Welcome from '@/app/pages/Welcome/Welcome';
@@ -17,6 +14,9 @@ import Instructions from '@/app/pages/Instructions/Instructions';
 import PositionTheCamera from '@/app/pages/PositionTheCamera/PositionTheCamera';
 import CaptureBody from '@/app/pages/CaptureBody/CaptureBody';
 import GetReady from '@/app/pages/GetReady/GetReady';
+import Exercise from '@/app/pages/Exercise/Exercise';
+import ExerciseSuccess from '@/app/pages/ExerciseSuccess/ExerciseSuccess';
+import ExtraRound from '@/app/pages/ExtraRound/ExtraRound';
 
 interface ExerciseType {
   name: string,
@@ -24,7 +24,9 @@ interface ExerciseType {
   frameWidth: number,
   frameHeight: number,
   frameCount: number,
-  frameDuration: number
+  frameDuration: number,
+  maxRepetitions: number,
+  extraRoundStart: number
 }
 
 const exercises: ExerciseType[] = [
@@ -34,7 +36,9 @@ const exercises: ExerciseType[] = [
     frameWidth: 375,
     frameHeight: 633,
     frameCount: 10,
-    frameDuration: 100
+    frameDuration: 100,
+    maxRepetitions: 10,
+    extraRoundStart: 8
   },
   {
     name: 'launges',
@@ -42,7 +46,9 @@ const exercises: ExerciseType[] = [
     frameWidth: 375,
     frameHeight: 633,
     frameCount: 10,
-    frameDuration: 100
+    frameDuration: 100,
+    maxRepetitions: 10,
+    extraRoundStart: 8
   }
 ]
 
@@ -57,7 +63,7 @@ const PageWrapper: React.FC = () => {
   if (!context) {
     throw new Error('Character must be used within a DataProvider');
   }
-  const { page, setSelectedExercise, selectedExercise, performancePercentage } = context
+  const { page, setSelectedExercise } = context
 
   useEffect(() => {
     const foundExercise: ExerciseType | undefined = exercises.find(exercise => exercise.name === exerciseName);
@@ -88,25 +94,21 @@ const PageWrapper: React.FC = () => {
         <GetReady />
       )}
 
-      
-
       {page === 'exercise' && (
-        <div className={styles.exercise}>
-          <h2 className={styles.exercise__title}>{selectedExercise.name}</h2>
-          <Character
-            imageUrl={selectedExercise.spriteUrl}
-            frameWidth={selectedExercise.frameWidth} // Width of each frame
-            frameHeight={selectedExercise.frameHeight} // Height of each frame
-            frameCount={selectedExercise.frameCount} // Total number of frames in the sprite sheet
-            frameDuration={selectedExercise.frameDuration} // Duration of each frame in milliseconds
-          />
-          <ProgressBar percentage={performancePercentage} />
-        </div>
+        <Exercise />
+      )}
+
+      {page === 'exerciseSucceed' && (
+        <ExerciseSuccess />
+      )}
+
+      {page === 'extraRound' && (
+        <ExtraRound />
       )}
 
 
       {/* CAMERA FEEDBACK */}
-      {(page === 'captureBody' || page === 'getReady' || page === 'exercise') && (
+      {(page === 'captureBody' || page === 'getReady' || page === 'exercise'  || page === 'exerciseSucceed' || page === 'extraRound') && (
         <CameraWrapper />
       )}
     </div>

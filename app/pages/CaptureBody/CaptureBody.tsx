@@ -22,7 +22,7 @@ const CaptureBody = () => {
         }, 1000);
         return () => clearTimeout(timer); // Clean up the timer
       } else {
-        // setPage('getReady')
+        setPage('getReady')
       }
     } else {
       setCountSuccess(5)
@@ -36,7 +36,8 @@ const CaptureBody = () => {
       }, 1000);
       return () => clearTimeout(timer); // Clean up the timer
     } else {
-      //setErrorMessage(true)
+      setErrorMessage(true)
+      setPage('getReady')
     }
   }, [countToDetect])
 

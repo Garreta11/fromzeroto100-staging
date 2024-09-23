@@ -22,7 +22,7 @@ const Character: React.FC<SpriteAnimationProps> = ({imageUrl, frameWidth, frameH
 
 
   const [currentFrame, setCurrentFrame] = useState(0);
-  const [isPlaying] = useState(false);
+  const [isPlaying] = useState(true);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   /* const startAnimation = () => {
