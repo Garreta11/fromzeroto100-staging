@@ -1,13 +1,18 @@
+@import './node_modules/@cosmos/foundation/lib/primitives/index';
 @import './breakpoints';
 @import './typography';
 
 :root {
+  // colors
   --black: #000000;
   --blue: #071E3A;
   --gray: #838383;
-  --white: #FEFEFE;
+  --white: #FFFFFF;
   --red: #DB0A40;
   --green: #159D48;
+
+  // variables
+  --border-radius: 13px;
 
   // font sizes
   --size-title: 34px;
@@ -18,12 +23,16 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    // colors
     --black: #000000;
     --blue: #071E3A;
     --gray: #838383;
-    --white: #ededed;
+    --white: #FFFFFF;
     --red: #DB0A40;
     --green: #159D48;
+
+    // variables
+    --border-radius: 13px;
 
     // font sizes
     --size-title: 34px;
@@ -40,7 +49,7 @@ body {
 }
 
 body {
-  background: var(--blue);
+  background: var(--white);
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

@@ -1,6 +1,7 @@
 import React, {useEffect, useState, useContext} from 'react'
 import styles from './CaptureBody.module.scss'
 import { DataContext } from '@/app/contexts/DataContext';
+import { CosmosButton } from "@cosmos/web/react";
 
 const CaptureBody = () => {
   const [countSuccess, setCountSuccess] = useState<number>(5);
@@ -37,7 +38,6 @@ const CaptureBody = () => {
       return () => clearTimeout(timer); // Clean up the timer
     } else {
       setErrorMessage(true)
-      setPage('getReady')
     }
   }, [countToDetect])
 
@@ -46,7 +46,13 @@ const CaptureBody = () => {
       <h2 className={styles.captureBody__title}>{allKeypointsInside ? 'Success!' : 'Capturing...'}</h2>
       
       {!errorMessage && (
-        <button onClick={() => setPage('welcome')}>Exit Game</button>
+        <CosmosButton
+          onClick={() => setPage('welcome')}
+          kind='primary'
+          size='small'
+        >
+          Exit Game
+        </CosmosButton>
       )}
 
       {errorMessage && (
@@ -55,7 +61,13 @@ const CaptureBody = () => {
           <div className={styles.captureBody__error__popup}>
             <h4>BODY SCAN FAILED</h4>
             <h4>Face the camera, stay still agaisnt a clear, solid background</h4>
-            <button onClick={() => setPage('positionTheCamera')}>Repeat</button>
+            <CosmosButton
+              onClick={() => setPage('positionTheCamera')}
+              kind='primary'
+              size='small'
+            >
+              Repeat
+            </CosmosButton>
           </div>
         </div>
       )}

@@ -17,40 +17,9 @@ import GetReady from '@/app/pages/GetReady/GetReady';
 import Exercise from '@/app/pages/Exercise/Exercise';
 import ExerciseSuccess from '@/app/pages/ExerciseSuccess/ExerciseSuccess';
 import ExtraRound from '@/app/pages/ExtraRound/ExtraRound';
-
-interface ExerciseType {
-  name: string,
-  spriteUrl: string,
-  frameWidth: number,
-  frameHeight: number,
-  frameCount: number,
-  frameDuration: number,
-  maxRepetitions: number,
-  extraRoundStart: number
-}
-
-const exercises: ExerciseType[] = [
-  {
-    name: 'squat',
-    spriteUrl: './ZERO_Sprite_Squat.png',
-    frameWidth: 375,
-    frameHeight: 633,
-    frameCount: 10,
-    frameDuration: 100,
-    maxRepetitions: 10,
-    extraRoundStart: 8
-  },
-  {
-    name: 'launges',
-    spriteUrl: './ZERO_Sprite_Squat.png',
-    frameWidth: 375,
-    frameHeight: 633,
-    frameCount: 10,
-    frameDuration: 100,
-    maxRepetitions: 10,
-    extraRoundStart: 8
-  }
-]
+// Import exercises from the new file
+import { exercises, ExerciseType } from '@/app/data/exercises';
+import End from '@/app/pages/End/End';
 
 
 const PageWrapper: React.FC = () => {
@@ -104,6 +73,10 @@ const PageWrapper: React.FC = () => {
 
       {page === 'extraRound' && (
         <ExtraRound />
+      )}
+      
+      {page === 'end' && (
+        <End />
       )}
 
 

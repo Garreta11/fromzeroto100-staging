@@ -8,6 +8,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  background-image: url(/images/desktop-background.png);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+
   @include mobile-query {
     padding: 0px;
   }

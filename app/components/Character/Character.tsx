@@ -18,37 +18,54 @@ const Character: React.FC<SpriteAnimationProps> = ({imageUrl, frameWidth, frameH
   if (!context) {
     throw new Error('Character must be used within a DataProvider');
   }
-  const { performancePercentage } = context;
+  const { performancePercentage, repetitions } = context;
 
 
   const [currentFrame, setCurrentFrame] = useState(0);
-  const [isPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  /* const startAnimation = () => {
-    if (!isPlaying && frameCount > 1) {
-      setIsPlaying(true);
-    }
-  };
+  const onAnimationEnd = () => {
+    setIsPlaying(false)
+    setCurrentFrame(0)
+  }
+  
+  const onAnimationStart = () => {
+    setTimeout(() => {
+      setIsPlaying(true)
+    }, 1000)
+  }
 
-  const stopAnimation = () => {
+  useEffect(() => {
+    onAnimationStart();
+  }, [repetitions])
+
+  useEffect(() => {
     if (isPlaying) {
-      setIsPlaying(false);
+      intervalRef.current = setInterval(() => {
+        setCurrentFrame((prevFrame) => {
+          const nextFrame = (prevFrame + 1) % frameCount;
+          if (nextFrame === 0) {
+            // Animation cycle is complete
+            onAnimationEnd(); // Run the function when the animation restarts
+          }
+          return nextFrame;
+        });
+      }, frameDuration);
+    } else {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
     }
-  };
 
-  const nextFrame = () => {
-    setCurrentFrame((prevFrame) => (prevFrame + 1) % frameCount);
-  };
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [isPlaying, frameCount, frameDuration]);
 
-  const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(event.target.value);
-    setCurrentFrame(value);
-  }; */
-
+  /*
   useEffect(() => {
     if (isPlaying) {
       intervalRef.current = setInterval(() => {
@@ -66,6 +83,7 @@ const Character: React.FC<SpriteAnimationProps> = ({imageUrl, frameWidth, frameH
       }
     };
   }, [isPlaying, frameCount, frameDuration]);
+  */
 
   useEffect(() => {
     const cf = Math.round((performancePercentage * (frameCount - 1)) / 100);

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import styles from './Instructions.module.scss';
 import { DataContext } from '@/app/contexts/DataContext';
+import { CosmosButton, CosmosText } from "@cosmos/web/react";
 
 const Instructions = () => {
 
@@ -21,15 +22,69 @@ const Instructions = () => {
       <div>
         <h2 className={styles.instructions__title}>How to win</h2>
         <div className={styles.instructions__text}>
-          <p className={styles.instructions__text__headline}>When you log in every day:</p>
+          <CosmosText
+            kind="normal"
+            size="small"
+            spacing="none"
+            tag="p"
+            weight="regular"
+          >
+            When you log in every day:
+          </CosmosText>
           <ul className={styles.instructions__text__list}>
-            <li><p>Scan your body using our motion capture feature</p></li>
-            <li><p>Work out with us and complete the daily set!</p></li>
-            <li><p>Earn more points with an extra round ... or not!</p></li>
-            <li><p>Share your skills with us and unique prizes!</p></li>
+            <li>
+              <CosmosText
+                kind="normal"
+                size="small"
+                spacing="none"
+                tag="p"
+                weight="regular"
+              >
+                Scan your body using our motion capture feature
+              </CosmosText>
+            </li>
+            <li>
+              <CosmosText
+                kind="normal"
+                size="small"
+                spacing="none"
+                tag="p"
+                weight="regular"
+              >
+                Work out with us and complete the daily set!
+              </CosmosText>
+            </li>
+            <li>
+              <CosmosText
+                kind="normal"
+                size="small"
+                spacing="none"
+                tag="p"
+                weight="regular"
+              >
+                Earn more points with an extra round ... or not!
+              </CosmosText>
+            </li>
+            <li>
+              <CosmosText
+                kind="normal"
+                size="small"
+                spacing="none"
+                tag="p"
+                weight="regular"
+              >
+                Share your skills with us and unique prizes!
+              </CosmosText>
+            </li>
           </ul>
         </div>
-        <button onClick={handlePlay}>Play game</button>
+        <CosmosButton
+          onClick={handlePlay}
+          kind='primary'
+          size='small'
+        >
+          Play Game
+        </CosmosButton>
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import Stats from 'stats.js';
 import { DataContext } from '../../contexts/DataContext';
 import { useRef, useState, useEffect, useCallback, useContext } from "react";
 import { loadMoveNetModel, detectPose } from "@/app/utils/movenet";
+// import { CosmosSpinner } from "@cosmos/web/react";
 // import useDeviceType from '@/app/hooks/useDeviceType';
 
 // Interface declarations
@@ -55,6 +56,7 @@ const CameraWrapper: React.FC = () => {
   const [poses, setPoses] = useState<Pose[]>([]);
   const [isModelLoaded, setIsModelLoaded] = useState<boolean>(false);
   const [keypointsInside, setKeypointsInside] = useState<boolean[]>(Array(17).fill(false));
+  const [loader, setLoader] = useState<boolean>(true)
   //const [videoConstraints, setVideoConstraints] = useState<VideoContraintsType>({width: 640, height: 480, facingMode: 'user'})
 
   const context = useContext(DataContext);
@@ -80,7 +82,8 @@ const CameraWrapper: React.FC = () => {
       const { poses: detectedPoses, counter: r, percentage: p } = await detectPose(video);
       setPoses(detectedPoses as Pose[]);
       setRepetitions(r);
-      console.log(p)
+      setLoader(false)
+      // console.log(p)
       // setPerformancePercentage(p)
 
       if (statsRef.current) statsRef.current.end()
@@ -211,7 +214,7 @@ const CameraWrapper: React.FC = () => {
     // Set the style for the dotted border
     ctx.strokeStyle = allKeypointsInside? 'green' : 'gray';
     ctx.setLineDash([10, 2]);  // Dotted line: 5px dash, 5px gap
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 3;
 
     ctx.beginPath();
     ctx.moveTo(x + radius, y);
@@ -235,18 +238,25 @@ const CameraWrapper: React.FC = () => {
   }
 
   return (
-    <div className={`${styles.camera} ${page === 'captureBody' ? styles.camera__fullscreen : ''}`}>
-      <Webcam
-        ref={webcamRef}
-        className={styles.camera__webcam}
-        audio={false}
-        height={videoConstraints.height}
-        width={videoConstraints.width}
-        videoConstraints={videoConstraints}
-      />
+    <>
+      <div className={`${styles.camera} ${page === 'captureBody' ? styles.camera__fullscreen : ''}`}>
+        <Webcam
+          ref={webcamRef}
+          className={styles.camera__webcam}
+          audio={false}
+          height={videoConstraints.height}
+          width={videoConstraints.width}
+          videoConstraints={videoConstraints}
+        />
 
-      <canvas ref={canvasRef} className={styles.camera__canvas} />
-    </div>
+        <canvas ref={canvasRef} className={styles.camera__canvas} />
+      </div>
+      {loader && (
+        <div className={styles.loader}>
+          <div className={styles.loader__icon} />
+        </div>
+      )}
+    </>
   )
 }
 

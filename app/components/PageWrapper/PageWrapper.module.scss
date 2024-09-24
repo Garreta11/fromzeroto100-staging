@@ -6,7 +6,7 @@
   max-width: 375px;
   max-height: 717px;
   background-color: var(--white);
-  border-radius: 13px;
+  border-radius: var(--border-radius);
   @include mobile-query {
     border-radius: 0px;
   }
