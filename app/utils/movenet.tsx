@@ -91,7 +91,7 @@ const detectSquat = (poses: poseDetection.Pose[]) => {
       }
     }
   }
-  return {counter, percentage};
+  return {counter};
 };
 
 /**
@@ -100,7 +100,7 @@ const detectSquat = (poses: poseDetection.Pose[]) => {
  * @param image - The HTMLImageElement, HTMLVideoElement, or HTMLCanvasElement to perform pose detection on.
  * @returns A Promise that resolves to an array of detected poses.
  */
-export const detectPose = async (image: HTMLImageElement | HTMLVideoElement | HTMLCanvasElement): Promise<{ poses: poseDetection.Pose[]; counter: number; percentage: number }> => {  if (!detector) {
+export const detectPose = async (image: HTMLImageElement | HTMLVideoElement | HTMLCanvasElement): Promise<{ poses: poseDetection.Pose[]; counter: number }> => {  if (!detector) {
     await loadMoveNetModel();
   }
 
@@ -110,10 +110,10 @@ export const detectPose = async (image: HTMLImageElement | HTMLVideoElement | HT
       flipHorizontal: false,  // No flipping needed for normal camera usage
     });
 
-    const {counter, percentage} = detectSquat(poses);  // Call the squat detection function
+    const {counter} = detectSquat(poses);  // Call the squat detection function
 
-    return { poses, counter, percentage};
+    return { poses, counter};
   }
 
-  return { poses: [], counter: 0, percentage: 0 };
+  return { poses: [], counter: 0 };
 };

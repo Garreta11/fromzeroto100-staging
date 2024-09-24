@@ -79,12 +79,10 @@ const CameraWrapper: React.FC = () => {
 
       const video = webcamRef.current.video as HTMLVideoElement;
       // const detectedPoses = await detectPose(video) as Pose[];
-      const { poses: detectedPoses, counter: r, percentage: p } = await detectPose(video);
+      const { poses: detectedPoses, counter: r } = await detectPose(video);
       setPoses(detectedPoses as Pose[]);
       setRepetitions(r);
       setLoader(false)
-      // console.log(p)
-      // setPerformancePercentage(p)
 
       if (statsRef.current) statsRef.current.end()
     }
